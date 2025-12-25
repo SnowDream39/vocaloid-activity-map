@@ -37,6 +37,7 @@ export default withNuxt(
       'vue/valid-v-for': 'error',
       'vue/valid-v-on': 'error',
       'vue/no-use-v-if-with-v-for': 'error',
+      '@typescript-eslint/no-explicit-any': 'off',
       
       'no-unused-vars': 'off',
       'prefer-const': 'error',

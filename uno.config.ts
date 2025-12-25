@@ -50,8 +50,8 @@ export default defineConfig({
   ],
   shortcuts: {
     // 文字样式
-    'big-title': 'text-2xl font-bold',
-    'small-title': 'text-xl font-bold',
+    'big-title': 'text-2xl font-bold my-4',
+    'sma my-2ll-title': 'text-xl font-bold',
     // 容器样式
     'center-container': 'flex justify-center items-center',
     // 按钮样式

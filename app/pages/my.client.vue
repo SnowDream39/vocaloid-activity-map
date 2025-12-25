@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { fetchUserInfo, updateProfile, changePassword, logout } from '~/api/core/user.client'
+import { updateProfile, changePassword, logout } from '~/api/core/user.client'
 
 // 页面元信息
 definePageMeta({
@@ -121,13 +121,6 @@ const recentActivities = ref([
   }
 ])
 
-
-// 页面挂载时获取用户信息
-onMounted(async () => {
-  if (userStore.isAuthenticated) {
-    await fetchUserInfo()
-  }
-})
 
 // 处理导航
 const handleNavigate = (path: string) => {

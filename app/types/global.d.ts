@@ -1,14 +1,37 @@
 import 'amap-jsapi-v2-types'
+import type { DateTime } from 'luxon'
 
 declare global {
     // 自行扩展类型用，一般不用
     // https://github.com/xyy94813/amap-jsapi-v2-types?tab=readme-ov-file
     namespace AMap {}
+    
     interface Activity {
-        id: number
-        name: string
-        organizer: string
-        description: string
-        tags: string[]
+        id:          number;
+        name:        string;
+        description: string;
+        location:    string;
+        start_time:  DateTime;
+        end_time:    DateTime;
+        max_member:  number;
+        position:    Position;
+        tags:        Tag[];
+        owner:       User;
+    }
+
+    export interface User {
+        id:       number;
+        nickname: string;
+    }
+
+    export interface Position {
+        type:        string;
+        coordinates: number[];
+    }
+
+    export interface Tag {
+        id:   number;
+        name: string;
+        type: string;
     }
 }
