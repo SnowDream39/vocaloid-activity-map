@@ -5,53 +5,45 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import { useMapStore } from '~/stores/map.client'
+import * as activityApi from '~/api/core/activity'
 
 const mapStore = useMapStore()
 const nuxtApp = useNuxtApp()
 
+const activities = ref<Activity[]>([])
+
+function createPoint(activity: Activity) {
+  const marker = new AMap.Marker({
+    position: activity.position.coordinates as [number, number]
+  })
+
+  const onMarkerClick = () => {
+    void nuxtApp.callHook('map:marker:click', activity)
+  }
+
+  marker.on('click', onMarkerClick)
+  
+  return marker
+}
+
+
 onMounted(async () => {
   try {
+    activities.value = await activityApi.getAll()
     await nextTick()
     await mapStore.initMap('main-map')
     const map = mapStore.getMap()
 
+
     if (map) {
-      // 添加标记点
-      const infoWindow = new AMap.InfoWindow({
-        isCustom: true,
-        content: '<div>HELLO,AMAP!</div>',
-        offset: new AMap.Pixel(16, -45),
-      })
-
-      const onMarkerClick = (e: { target: { getPosition: () => [number, number] }}) => {
-        infoWindow.open(map, e.target.getPosition())
-        void nuxtApp.callHook('map:marker:click', e)
-
+      const points = []
+      for (const activity of activities.value) {
+        const marker = createPoint(activity)
+        points.push(marker)
+        console.log("已添加：", activity.name)
       }
+      map.add(points)
 
-      const marker = new AMap.Marker({
-        position: [116.481181, 39.989792],
-      })
-
-      map.add(marker)
-      marker.on('click', onMarkerClick)
-
-      // 添加折线
-      const lineArr: [number, number][] = [
-        [116.368904, 39.913423],
-        [116.382122, 39.901176],
-        [116.387271, 39.912501],
-        [116.398258, 39.9046],
-      ]
-
-      const polyline = new AMap.Polyline({
-        path: lineArr,
-        strokeColor: '#3366FF',
-        strokeWeight: 5,
-        strokeStyle: 'solid',
-      })
-
-      map.add(polyline)
     }
   } catch (error) {
     console.error('地图初始化失败:', error)

@@ -1,22 +1,21 @@
 <template>
-  <div class="w-full h-full relative">
-    <MainMap />
-    <div v-if="activityPanelVisible" class="absolute w-full h-full top-0 right-0 flex flex-col justify-end">
-      <ActivityPanel />
+  <div class="flex flex-col items-center">
+    <h1 class="big-title">活动</h1>
+    <div class="flex flex-col gap-4">
+      <ActivityCard v-for="activity in activities" :key="activity.id" :activity="activity" />
     </div>
+
   </div>
-  <MapControls />
+
 </template>
 
 <script setup lang="ts">
-const router = useRouter()
-const nuxtApp = useNuxtApp()
-const activityPanelVisible = ref<boolean>(false)
- 
-onMounted(() => {
-  nuxtApp.hook('map:marker:click', (e: { target: { getPosition: () => [number, number] }}) => {
-    activityPanelVisible.value = true
-    console.log(e)
-  })
+import * as activityApi from '~/api/core/activity'
+
+const activities = ref<Activity[]>([])
+
+onMounted(async () => {
+  activities.value = await activityApi.getAll()
+  console.log(activities.value[0])
 })
 </script>

@@ -68,11 +68,6 @@ const formatDateTime = (dateTime: DateTime): string => {
   return dateTime.toFormat('MM月dd日 HH:mm')
 }
 
-const formatPosition = (position: Position): string => {
-  const [lng, lat] = position.coordinates
-  return `经度 ${lng!.toFixed(4)}, 纬度 ${lat!.toFixed(4)}`
-}
-
 const getStatusText = (): string => {
   const now = DateTime.now()
   const { start_time, end_time } = props.activity

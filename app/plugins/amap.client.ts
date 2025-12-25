@@ -1,14 +1,13 @@
 // plugins/amap.client.ts
 // 引入 AMapLoader 依赖包
 import AMapLoader from '@amap/amap-jsapi-loader';
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin(async () => {
   try {
     const config = useRuntimeConfig()
     // 安全密钥
     window._AMapSecurityConfig = {
       securityJsCode: config.public.amapSecurityCode
     }
-    console.log('mounted.window', window._AMapSecurityConfig)
     return {
       provide: {
         AMap: await AMapLoader.load({

@@ -22,10 +22,9 @@ export const useMapStore = defineStore('map', {
       const { $AMap } = useNuxtApp()
 
       // 创建地图实例
-      // @ts-ignore
       this.map = new $AMap.Map(containerId, {
         zoom: 10, // 初始缩放级别
-        center: [116.397428, 39.90923], // 初始中心点（北京天安门）
+        center: [120.2, 30.2], // 初始中心点（杭州）
         viewMode: '2D', // 地图视图模式
       })
 
