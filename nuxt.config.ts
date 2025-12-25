@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     public: {
       amapKey: process.env.AMAP_KEY,
       amapSecurityCode: process.env.AMAP_SECURITY_CODE,
+      apiBaseUrl: process.env.API_BASE_URL,
     }
   },
   modules: [
@@ -30,5 +31,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@element-plus/nuxt',
     '@nuxt/icon'
-  ]
+  ],
+  elementPlus: { /** Options */ }
 })

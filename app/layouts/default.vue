@@ -1,41 +1,12 @@
 <template>
-  <div class="default-layout"> 
-    <div class="default-layout-content">
-      <main>
+  <div class="flex flex-col items-center h-screen">
+    <div class="w-full max-w-md h-screen flex flex-col items-center">
+      <main class="flex-1 w-full overflow-y-auto">
         <slot />
       </main>
-      <footer>
+      <footer class="flex-shrink-0 h-12 w-full">
         <footer-view />
       </footer>
     </div>
   </div>
 </template>
-
-<style scoped>
-.default-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.default-layout-content {
-  max-width: 450px;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  & > * {
-    width: 100%;
-  }
-}
-header, footer {
-  flex-shrink: 0;
-  height: 50px;
-}
-main {
-  flex: 1;
-}
-
-</style>

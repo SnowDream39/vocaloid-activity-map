@@ -17,6 +17,8 @@
     "@nuxt/icon": "2.1.0",
     "@pinia/nuxt": "0.11.3",
     "@vueuse/nuxt": "14.1.0",
+    "axios": "^1.13.2",
+    "dayjs": "^1.11.19",
     "eslint": "^9.39.1",
     "nuxt": "^4.2.1",
     "pinia": "^3.0.4",
@@ -31,6 +33,7 @@
     "@typescript-eslint/parser": "^8.50.1",
     "@unocss/nuxt": "^66.5.9",
     "amap-jsapi-v2-types": "^1.6.0",
+    "element-plus": "^2.13.0",
     "unocss": "^66.5.9",
     "vue-eslint-parser": "^10.2.0"
   }
