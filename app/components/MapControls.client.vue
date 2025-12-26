@@ -11,6 +11,7 @@
       <button class="control-btn" @click="zoomOut">缩小</button>
       <button class="control-btn" @click="resetView">重置视图</button>
       <button class="control-btn" @click="addScale">添加比例尺</button>
+      <button class="control-btn" @click="jumpToUser">定位到用户</button>
     </div>
   </div>
 </template>
@@ -46,6 +47,10 @@ const addScale = async () => {
   const map = mapStore.getMap()
   if (!map) return
   map.addControl(new AMap.Scale())
+}
+
+const jumpToUser = () => {
+  mapStore.jumpToHome()
 }
 </script>
 

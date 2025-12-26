@@ -207,5 +207,10 @@ const handleLogout = async () => {
     // 用户取消操作
   }
 }
+
+onMounted(() => {
+  console.log("页面已加载")
+})
+
 </script>
 

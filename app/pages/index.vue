@@ -16,6 +16,5 @@ const activities = ref<Activity[]>([])
 
 onMounted(async () => {
   activities.value = await activityApi.getAll()
-  console.log(activities.value[0])
 })
 </script>

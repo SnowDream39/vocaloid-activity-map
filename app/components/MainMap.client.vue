@@ -1,11 +1,20 @@
 <template>
-  <div id="main-map" class="w-full h-full"></div>
+  <div id="main-map" class="w-full h-full">
+    <div class="h-full flex justify-center items-center">
+      <div>加载中...</div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import { useMapStore } from '~/stores/map.client'
 import * as activityApi from '~/api/core/activity'
+
+definePageMeta({
+  title: '地图'
+})
+
 
 const mapStore = useMapStore()
 const nuxtApp = useNuxtApp()
@@ -31,22 +40,31 @@ onMounted(async () => {
   try {
     activities.value = await activityApi.getAll()
     await nextTick()
-    await mapStore.initMap('main-map')
     const map = mapStore.getMap()
+
+    if (! map) {
+      await mapStore.initMap('main-map')
+    }
 
 
     if (map) {
+      mapStore.jumpToHome()
       const points = []
       for (const activity of activities.value) {
         const marker = createPoint(activity)
         points.push(marker)
-        console.log("已添加：", activity.name)
       }
       map.add(points)
-
     }
   } catch (error) {
     console.error('地图初始化失败:', error)
+  }
+})
+
+onActivated(() => {
+  const map = mapStore.getMap()
+  if (map) {
+    map.resize()
   }
 })
 
