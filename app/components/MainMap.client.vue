@@ -39,20 +39,22 @@ function createPoint(activity: Activity) {
 onMounted(async () => {
   try {
     activities.value = await activityApi.getAll()
+    console.log(activities.value)
     await nextTick()
-    const map = mapStore.getMap()
+    let map = mapStore.getMap()
 
     if (! map) {
-      await mapStore.initMap('main-map')
+      map = await mapStore.initMap('main-map')
     }
 
 
     if (map) {
-      mapStore.jumpToHome()
+      console.log("有地图，开始读取事件")
       const points = []
       for (const activity of activities.value) {
         const marker = createPoint(activity)
         points.push(marker)
+        console.log("已读取活动")
       }
       map.add(points)
     }

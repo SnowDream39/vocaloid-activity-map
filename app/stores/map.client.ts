@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 export const useMapStore = defineStore('map', {
   state: () => ({
     map: shallowRef<AMap.Map | null>(null),
-    home: [120.2, 30.2],
+    home: [120.2, 30.2] as [number, number],
     isLoading: false,
     error: null as string | null
   }),

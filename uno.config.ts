@@ -1,27 +1,40 @@
-import { defineConfig, presetWind4 } from 'unocss'
-import { presetIcons } from 'unocss'
+import  { presetWind4, defineConfig, presetIcons } from 'unocss'
+import { presetScrollbarHide } from 'unocss-preset-scrollbar-hide'
+
 export default defineConfig({
   presets: [
     presetWind4({
       dark: 'media',
     }),
     presetIcons(),
+    presetScrollbarHide(),
   ],
   theme: {
     colors: {
       primary: 'var(--md-sys-color-primary)',
+      'primary-fixed': 'var(--md-sys-color-primary-fixed)',
+      'primary-fixed-dim': 'var(--md-sys-color-primary-fixed-dim)',
       'on-primary': 'var(--md-sys-color-on-primary)',
       secondary: 'var(--md-sys-color-secondary)',
+      'secondary-fixed': 'var(--md-sys-color-secondary-fixed)',
+      'secondary-fixed-dim': 'var(--md-sys-color-secondary-fixed-dim)',
       'on-secondary': 'var(--md-sys-color-on-secondary)',
       tertiary: 'var(--md-sys-color-tertiary)',
+      'tertiary-fixed': 'var(--md-sys-color-tertiary-fixed)',
+      'tertiary-fixed-dim': 'var(--md-sys-color-tertiary-fixed-dim)',
       'on-tertiary': 'var(--md-sys-color-on-tertiary)',
+      background: 'var(--md-sys-color-background)',
+      'on-background': 'var(--md-sys-color-on-background)',
       surface: 'var(--md-sys-color-surface)',
       'surface-variant': 'var(--md-sys-color-surface-variant)',
       'surface-container': 'var(--md-sys-color-surface-container)',
       'on-surface': 'var(--md-sys-color-on-surface)',
       'on-surface-variant': 'var(--md-sys-color-on-surface-variant)',
+      outline: 'var(--md-sys-color-outline)',
+      'on-outline': 'var(--md-sys-color-on-outline)',
       error: 'var(--md-sys-color-error)',
       'on-error': 'var(--md-sys-color-on-error)',
+      'error-container': 'var(--md-sys-color-error-container)'
     },
     zIndex: {
       base: '0',

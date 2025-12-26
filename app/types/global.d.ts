@@ -34,4 +34,16 @@ declare global {
         name: string;
         type: string;
     }
+
+    interface SearchForm {
+        keywords: string;
+        tag_ids: number[];
+        max_member_gt: number | null;
+        max_member_lt: number | null;
+        time_begin: DateTime | null;
+        time_end: DateTime | null;
+        page: number;
+        page_size: number;
+    }
+
 }

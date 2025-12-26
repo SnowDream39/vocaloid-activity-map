@@ -23,7 +23,8 @@ api.interceptors.request.use(
 );
 const endpoints = {
   getAll: `/activity/all`,
-  getById: (id: number) => `/activity/id/${id}`
+  getById: (id: number) => `/activity/id/${id}`,
+  search: `/activity/search`,
 }
 
 
@@ -43,4 +44,19 @@ export async function getAll(): Promise<Activity[]> {
 export async function getById(id: number): Promise<Activity> {
   const response = await api.get(endpoints.getById(id))
   return response.data
+}
+export async function search(
+  keywords: string,
+  tag_ids: number[],
+  max_member_gt: number | null,
+  max_member_lt: number | null,
+  time_begin: luxon.DateTime | null,
+  time_end: luxon.DateTime | null,
+  page: number,
+  page_size: number
+): Promise<Activity[]> {
+  const response = await api.get(endpoints.search, {
+    params: { keywords, tag_ids, max_member_gt, max_member_lt, time_begin, time_end, page, page_size}
+  })
+  return response.data.map(formatActivity)
 }

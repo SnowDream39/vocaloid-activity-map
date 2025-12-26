@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-t-2xl shadow-2xl border-t border-gray-200 transform transition-transform duration-300 relative">
+  <div class="bg-surface text-on-surface rounded-t-2xl shadow-2xl border-t border-outline transform transition-transform duration-300 relative">
     <!-- 拖拽指示器 -->
     <div class="flex justify-center pt-2 pb-1">
       <div class="w-12 h-1 bg-gray-300 rounded-full"/>
@@ -10,14 +10,14 @@
       class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
       @click="handleClose"
     >
-      <Icon name="material-symbols:close" class="w-5 h-5 text-gray-600" />
+      <Icon name="material-symbols:close" class="w-5 h-5 " />
     </button>
     
     <!-- 主要内容 -->
     <div class="px-6 pb-6 max-h-96 overflow-y-auto">
       <!-- 活动标题 -->
       <div class="mb-4 pr-8">
-        <h2 class="text-xl font-bold text-gray-900 mb-2">{{ activity.name }}</h2>
+        <h2 class="text-xl font-bold  mb-2">{{ activity.name }}</h2>
         <div class="flex flex-wrap gap-2">
           <TagComponent v-for="tag in sortTags(activity.tags)" :key="tag.id" :tag="tag" />
         </div>
@@ -25,11 +25,11 @@
       
       <!-- 活动描述 -->
       <div class="mb-6">
-        <h3 class="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+        <h3 class="text-sm font-semibold mb-2 flex items-center gap-2">
           <Icon name="mdi:information" class="w-4 h-4" />
           活动介绍
         </h3>
-        <p class="text-gray-600 leading-relaxed">{{ activity.description }}</p>
+        <p class=" leading-relaxed">{{ activity.description }}</p>
       </div>
       
       <!-- 详细信息网格 -->
@@ -69,19 +69,19 @@
       
       <!-- 位置信息 -->
       <div class="mb-6">
-        <h3 class="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+        <h3 class="text-sm font-semibold  mb-2 flex items-center gap-2">
           <Icon name="mdi:map-marker" class="w-4 h-4" />
           活动位置
         </h3>
         <div class="bg-gray-50 rounded-lg p-3">
-          <p class="text-gray-700 text-sm">{{ activity.location }}</p>
+          <p class="text-sm">{{ activity.location }}</p>
         </div>
       </div>
       
       <!-- 活动状态 -->
       <div class="mb-6">
         <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">活动状态</span>
+          <span class="text-sm">活动状态</span>
           <span class="px-3 py-1 text-sm font-medium rounded-full" :class="getStatusClass()">
             {{ getStatusText() }}
           </span>
@@ -91,13 +91,13 @@
       <!-- 操作按钮 -->
       <div class="flex gap-3">
         <button 
-          class="flex-1 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 active:bg-primary-700 transition-colors"
+          class="flex-1 py-3 bg-primary text-on-primary font-medium rounded-lg hover:bg-primary-fixed transition-colors"
           @click="handleJoin"
         >
           {{ getJoinButtonText() }}
         </button>
         <button 
-          class="px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
+          class="px-6 py-3 font-medium rounded-lg bg-secondary text-on-secondary hover:bg-secondary-fixed transition-colors"
           @click="handleShare"
         >
           <Icon name="mdi:share" class="w-5 h-5" />
@@ -131,14 +131,6 @@ const getStatusText = (): string => {
   if (now < start_time) return '即将开始'
   if (now > end_time) return '已结束'
   return '进行中'
-}
-
-const sortTags = (tags: Tag[]): Tag[] => {
-  const typesOrder: Record<string, number> = {
-    category: 1,
-    artist: 2
-  }
-  return tags.sort((a: Tag, b: Tag) => typesOrder[a.type]! - typesOrder[b.type]!)
 }
 
 const getStatusClass = (): string => {

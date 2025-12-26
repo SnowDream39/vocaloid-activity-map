@@ -1,12 +1,9 @@
 <template>
-  <div class="map-controls">
-    <div v-if="mapStore.isLoading" class="loading-status">地图加载中...</div>
-
-    <div v-if="mapStore.error" class="error-message">
+  <div class="bg-surface absolute top-2 right-2 z-1000 rounded-md p-2 shadow-md">
+    <div v-if="mapStore.error" class="p-2 py-3 mb-2 rounded-sm bg-error-container text-error border-[color_mix(in_srgb,var(--md-sys-color-error-container),black)] border-1">
       {{ mapStore.error }}
     </div>
-
-    <div v-if="mapStore.map" class="controls">
+    <div v-if="mapStore.map" class="flex flex-col gap-2">
       <button class="control-btn" @click="zoomIn">放大</button>
       <button class="control-btn" @click="zoomOut">缩小</button>
       <button class="control-btn" @click="resetView">重置视图</button>
@@ -55,42 +52,6 @@ const jumpToUser = () => {
 </script>
 
 <style scoped>
-.map-controls {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1000;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 12px;
-}
-
-.loading-status,
-.error-message {
-  padding: 8px 12px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.loading-status {
-  background: #e6f7ff;
-  color: #1890ff;
-  border: 1px solid #91d5ff;
-}
-
-.error-message {
-  background: #fff2f0;
-  color: #ff4d4f;
-  border: 1px solid #ffccc7;
-}
-
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 
 .control-btn {
   padding: 8px 16px;

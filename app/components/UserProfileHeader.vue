@@ -37,10 +37,10 @@
               :src="userStore.user.avatar" 
               :alt="userStore.user.nickname"
               class="w-full h-full rounded-full object-cover"
-            />
+            >
           </div>
           <div class="flex-1">
-            <h2 class="text-2xl font-bold mb-1">{{ userStore.user.nickname }}</h2>
+            <h2 class="text-white text-2xl font-bold mb-1">{{ userStore.user.nickname }}</h2>
             <p class="text-white/80 text-sm">{{ userStore.user.email }}</p>
             <p class="text-white/60 text-xs mt-1">
               加入时间：{{ formatDate(userStore.user.signup_time) }}

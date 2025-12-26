@@ -4,7 +4,7 @@
       <Icon name="material-symbols:analytics" class="mr-2 text-primary" />
       活动统计
     </h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 gap-4">
       <div class="text-center p-4 bg-primary/10 rounded-lg">
         <div class="text-2xl font-bold text-primary">{{ stats.participated }}</div>
         <div class="text-sm text-on-surface-variant">参与活动</div>

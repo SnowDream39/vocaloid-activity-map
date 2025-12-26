@@ -9,9 +9,9 @@
 
     <!-- 主要内容区域 -->
     <div class="container mx-auto px-4 py-8">
-      <div v-if="userStore.isAuthenticated && userStore.user" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div v-if="userStore.isAuthenticated && userStore.user" class="grid grid-cols-1 gap-6">
         <!-- 左侧：用户信息卡片 -->
-        <div class="lg:col-span-2 space-y-6">
+        <div class="space-y-6">
           <!-- 统计信息 -->
           <ActivityStats :stats="activityStats" />
 
