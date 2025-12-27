@@ -1,5 +1,5 @@
 <template>
-  <div class="max-h-full grid grid-rows-[auto,1fr] overflow-hidden">
+  <div class="h-full w-full grid grid-rows-[auto,1fr] overflow-hidden">
     <!-- 主搜索框 -->
     <div class="w-full">
       <SearchBar 
@@ -39,7 +39,7 @@
 
 
     <!-- 主体 -->
-    <div class="relative w-full overflow-hidden">
+    <div class="relative w-full h-full overflow-hidden">
       
       <!-- 搜索选项 -->
       <div v-if="expandedFilter" class="absolute top-0 h-full w-full bg-black/50 z-10">

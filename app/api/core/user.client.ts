@@ -21,16 +21,13 @@ interface ChangePasswordData {
   new_password: string
 }
 
-function getApi() {
-  const api = axios.create({
-    baseURL: useRuntimeConfig().public.apiBaseUrl,
-    withCredentials: true
-  })
-  return api
-}
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true
+})
 
 export const login = async (form: UserLogin) => {
-  const api = getApi()
 
   if (import.meta.dev) {
     const response = await api.post('/auth/jwt/login', {
@@ -70,7 +67,6 @@ export const login = async (form: UserLogin) => {
 
 // 注册：同样启用 withCredentials，注册成功后后端可自动设置 Cookie
 export const register = async (form: UserRegister) => {
-  const api = getApi()
   const response = await api.post(
     '/auth/register',
     {
@@ -94,7 +90,6 @@ export const fetchUserInfo = async () => {
     } else {
       config.withCredentials = true
     }
-    const api = getApi()
     const response = await api.get('/users/me', config)
     const userStore = useUserStore()
     userStore.setUser(response.data)
@@ -107,7 +102,6 @@ export const fetchUserInfo = async () => {
 
 // 更新用户资料
 export const updateProfile = async (updates: UpdateProfileData) => {
-  const api = getApi()
   try {
     const response = await api.put('/user/profile', updates)
     const userStore = useUserStore()
@@ -121,7 +115,6 @@ export const updateProfile = async (updates: UpdateProfileData) => {
 
 // 修改密码
 export const changePassword = async (passwordData: ChangePasswordData) => {
-  const api = getApi()
   try {
     await api.post('/user/password', passwordData)
   } catch (error) {
@@ -132,7 +125,6 @@ export const changePassword = async (passwordData: ChangePasswordData) => {
 
 // 登出
 export const logout = async () => {
-  const api = getApi()
   try {
     await api.post('/auth/logout')
     const userStore = useUserStore()

@@ -24,6 +24,33 @@
 
         <!-- 右侧：设置菜单 -->
         <div class="space-y-6">
+          <!-- 创建活动入口 -->
+          <div class="bg-surface rounded-lg p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-on-surface mb-4 flex items-center gap-2">
+              <Icon name="material-symbols:add-circle" class="w-5 h-5" />
+              活动管理
+            </h3>
+            <div class="space-y-3">
+              <el-button 
+                type="primary" 
+                size="large"
+                class="w-full"
+                @click="handleCreateActivity"
+              >
+                <Icon name="material-symbols:add" class="mr-2" />
+                创建新活动
+              </el-button>
+              <el-button 
+                size="large"
+                class="w-full"
+                @click="handleMyActivities"
+              >
+                <Icon name="material-symbols:format-list-bulleted" class="mr-2" />
+                我的活动
+              </el-button>
+            </div>
+          </div>
+
           <AccountSettings 
             @change-password="showPasswordDialog = true"
             @privacy-settings="showPrivacySettings = true"
@@ -137,6 +164,18 @@ const handleActivityClick = (activity: any) => {
 const handleHelpCenter = () => {
   console.log('打开帮助中心')
   // 这里可以跳转到帮助中心页面
+}
+
+// 处理创建活动
+const handleCreateActivity = () => {
+  navigateTo('/activity-upload')
+}
+
+// 处理我的活动
+const handleMyActivities = () => {
+  console.log('查看我的活动')
+  // 这里可以跳转到我的活动列表页面
+  ElMessage.info('我的活动功能开发中')
 }
 
 // 保存个人资料

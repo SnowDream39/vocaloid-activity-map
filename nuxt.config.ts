@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/index.css'],
+  ssr: false,
+  nitro: {
+    preset: 'static'
+  },
   app: {
     head: {
       title: '术力口活动地图',
@@ -16,6 +20,9 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
       ]
     }
+  },
+  routeRules: {
+    '/': { redirect: '/map' },
   },
   runtimeConfig: {
     public: {
