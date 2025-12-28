@@ -3,6 +3,7 @@
     <div class="h-full flex justify-center items-center">
       <div>加载中...</div>
     </div>
+    <MapControls v-if="map" :map="map" />
   </div>
 </template>
 
@@ -18,7 +19,7 @@ definePageMeta({
 
 const mapStore = useMapStore()
 const nuxtApp = useNuxtApp()
-
+const map = shallowRef<AMap.Map>()
 const activities = ref<Activity[]>([])
 
 function createPoint(activity: Activity) {
@@ -41,14 +42,26 @@ onMounted(async () => {
     activities.value = await activityApi.getAll()
     console.log(activities.value)
     await nextTick()
-    let map = mapStore.getMap()
+    const { $AMap } = useNuxtApp()
+    map.value = new $AMap.Map('main-map', {
+        zoom: 10, // 初始缩放级别
+        center: [120.2, 30.2], // 初始中心点（杭州）
+        viewMode: '2D', // 地图视图模式
+      })
 
-    if (! map) {
-      map = await mapStore.initMap('main-map')
-    }
 
-
-    if (map) {
+    if (map.value) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude: lat, longitude: lon, accuracy: acc } = position.coords
+          mapStore.home = {lon, lat}
+          console.log(`跳转到用户位置: 经度=${lon}, 纬度=${lat}, 准确度=${acc}`)
+          map.value?.setCenter(lonlatToArray(mapStore.home), true)
+        },
+        (error) => {
+          console.error('获取用户位置失败:', error)
+        }
+      )
       console.log("有地图，开始读取事件")
       const points = []
       for (const activity of activities.value) {
@@ -56,7 +69,7 @@ onMounted(async () => {
         points.push(marker)
         console.log("已读取活动")
       }
-      map.add(points)
+      map.value.add(points)
     }
   } catch (error) {
     console.error('地图初始化失败:', error)
@@ -64,13 +77,11 @@ onMounted(async () => {
 })
 
 onActivated(() => {
-  const map = mapStore.getMap()
-  if (map) {
-    map.resize()
-  }
+  
+  map.value?.resize()
 })
 
 onUnmounted(() => {
-  mapStore.destroyMap()
+  map.value?.destroy()
 })
 </script>

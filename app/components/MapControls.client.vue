@@ -3,7 +3,7 @@
     <div v-if="mapStore.error" class="p-2 py-3 mb-2 rounded-sm bg-error-container text-error border-[color_mix(in_srgb,var(--md-sys-color-error-container),black)] border-1">
       {{ mapStore.error }}
     </div>
-    <div v-if="mapStore.map" class="flex flex-col gap-2">
+    <div v-if="map" class="flex flex-col gap-2">
       <button class="control-btn" @click="zoomIn">放大</button>
       <button class="control-btn" @click="zoomOut">缩小</button>
       <button class="control-btn" @click="resetView">重置视图</button>
@@ -17,23 +17,26 @@
 import { useMapStore } from '~/stores/map.client'
 
 const mapStore = useMapStore()
+const props = defineProps<{
+  map: AMap.Map
+}>()
 
 const zoomIn = () => {
-  const map = mapStore.getMap()
+  const map = props.map
   if (map) {
     map.setZoom(map.getZoom() + 1)
   }
 }
 
 const zoomOut = () => {
-  const map = mapStore.getMap()
+  const map = props.map
   if (map) {
     map.setZoom(map.getZoom() - 1)
   }
 }
 
 const resetView = () => {
-  const map = mapStore.getMap()
+  const map = props.map
   if (map) {
     map.setCenter([116.397428, 39.90923])
     map.setZoom(10)
@@ -41,13 +44,13 @@ const resetView = () => {
 }
 
 const addScale = async () => {
-  const map = mapStore.getMap()
+  const map = props.map
   if (!map) return
   map.addControl(new AMap.Scale())
 }
 
 const jumpToUser = () => {
-  mapStore.jumpToHome()
+  mapStore.jumpToHome(props.map)
 }
 </script>
 
