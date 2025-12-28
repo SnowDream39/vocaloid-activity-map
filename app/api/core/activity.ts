@@ -45,6 +45,7 @@ function formatCreateActivity(activity: ActivityCreate): any {
 const endpoints = {
   getAll: `/activity/all`,
   getById: (id: number) => `/activity/id/${id}`,
+  getNearby: `/activity/nearby`,
   search: `/activity/search`,
   create: `/activity/create`,
 }
@@ -61,6 +62,14 @@ export async function getById(id: number): Promise<Activity> {
   const response = await api.get(endpoints.getById(id))
   return response.data
 }
+
+export async function getNearby(lon: number, lat: number, distance: number, page: number = 1, page_size: number = 20): Promise<Activity[]> {
+  const response = await api.get(endpoints.getNearby, {
+    params: { lon, lat, distance, page, page_size }
+  })
+  return response.data.map(formatReadActivity)
+}
+
 export async function search(
   keywords: string,
   tag_ids: number[],

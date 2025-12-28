@@ -8,6 +8,7 @@ import { defineStore } from 'pinia'
 export const useMapStore = defineStore('map', {
   state: () => ({
     home: {lon:120.2, lat:30.2},
+    zoom: 10,
     isLoading: false,
     error: null as string | null
   }),

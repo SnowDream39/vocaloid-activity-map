@@ -11,7 +11,6 @@
           />
       </div>
     </div>
-    <MapControls />
   </div>
 </template>
 
@@ -23,7 +22,6 @@ const activeActivity = ref<Activity>()
  
 onMounted(() => {
   nuxtApp.hook('map:marker:click', (activity: Activity) => {
-    console.log(activity)
     activityPanelVisible.value = true
     activeActivity.value = activity
   })

@@ -6,8 +6,6 @@
     <div v-if="map" class="flex flex-col gap-2">
       <button class="control-btn" @click="zoomIn">放大</button>
       <button class="control-btn" @click="zoomOut">缩小</button>
-      <button class="control-btn" @click="resetView">重置视图</button>
-      <button class="control-btn" @click="addScale">添加比例尺</button>
       <button class="control-btn" @click="jumpToUser">定位到用户</button>
     </div>
   </div>
@@ -33,20 +31,6 @@ const zoomOut = () => {
   if (map) {
     map.setZoom(map.getZoom() - 1)
   }
-}
-
-const resetView = () => {
-  const map = props.map
-  if (map) {
-    map.setCenter([116.397428, 39.90923])
-    map.setZoom(10)
-  }
-}
-
-const addScale = async () => {
-  const map = props.map
-  if (!map) return
-  map.addControl(new AMap.Scale())
 }
 
 const jumpToUser = () => {
