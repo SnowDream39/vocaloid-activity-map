@@ -43,20 +43,6 @@
               />
             </el-form-item>
 
-            <!-- 活动描述暂时不支持 -->
-            <!--
-            <el-form-item label="活动描述" prop="description">
-              <el-input 
-                v-model="form.description" 
-                type="textarea" 
-                :rows="4"
-                placeholder="请描述活动内容、注意事项等"
-                maxlength="500"
-                show-word-limit
-              />
-            </el-form-item>
-            -->
-
             <el-form-item label="活动描述" prop="description">
               <el-input 
                 v-model="form.description" 
@@ -106,7 +92,18 @@
                     </el-tag>
                   </div>
                 </div>
+                
               </div>
+            </el-form-item>
+
+            <el-form-item label="最大人数" prop="max_member">
+              <el-input-number 
+                v-model="form.max_member" 
+                :min="1" 
+                :max="10000"
+                placeholder="请输入最大参与人数"
+                class="w-full"
+              />
             </el-form-item>
           </div>
 
@@ -141,73 +138,16 @@
           </div>
 
           <!-- 位置设置 -->
-          <div class="border-b pb-6">
-            <h2 class="text-lg font-semibold mb-4 text-on-surface flex items-center gap-2">
-              <Icon name="material-symbols:location-on" class="w-5 h-5" />
-              位置设置
-            </h2>
+          <SelectLocation v-model:location="form.location" v-model:position="form.position" />
 
-            <el-form-item label="活动地址" prop="location">
-              <el-input 
-                v-model="form.location" 
-                placeholder="请输入详细地址"
-              />
-            </el-form-item>
-
-            <el-form-item label="坐标选择">
-              <div class="space-y-3">
-                <div class="flex gap-3">
-                  <el-input 
-                    v-model="form.position.lon" 
-                    placeholder="经度"
-                    type="number"
-                    step="0.000001"
-                  />
-                  <el-input 
-                    v-model="form.position.lat" 
-                    placeholder="纬度"
-                    type="number"
-                    step="0.000001"
-                  />
-                  <el-button 
-                    type="primary" 
-                    @click="handleLocationSelect"
-                  >
-                    地图选择
-                  </el-button>
-                </div>
-                <div class="text-sm text-on-surface-variant">
-                  可手动输入坐标或点击地图选择
-                </div>
-              </div>
-            </el-form-item>
-          </div>
-
-          <!-- 人数设置 -->
-          <div class="pb-6">
-            <h2 class="text-lg font-semibold mb-4 text-on-surface flex items-center gap-2">
-              <Icon name="material-symbols:groups" class="w-5 h-5" />
-              人数设置
-            </h2>
-
-            <el-form-item label="最大人数" prop="max_member">
-              <el-input-number 
-                v-model="form.max_member" 
-                :min="1" 
-                :max="10000"
-                placeholder="请输入最大参与人数"
-                class="w-full"
-              />
-            </el-form-item>
-          </div>
         </el-form>
       </div>
 
       <!-- 操作按钮 -->
-      <div class="flex gap-4 mt-8">
+      <div class="flex justify-end gap-4 mt-8">
         <el-button 
           size="large" 
-          @click="handleCancel"
+          @click="handleCancel" 
         >
           取消
         </el-button>
@@ -236,6 +176,7 @@ definePageMeta({
   requiresAuth: true
 })
 
+const mapStore = useMapStore()
 // 表单引用
 const formRef = ref<FormInstance>()
 
@@ -288,7 +229,7 @@ const form = reactive({
   start_time: null as Date | null,
   end_time: null as Date | null,
   location: '',
-  position: {lon: 116.3974, lat: 39.9093}, // 默认北京坐标
+  position: mapStore.home,
   max_member: 50
 })
 
@@ -367,11 +308,7 @@ const handleGoBack = () => {
   navigateTo('/my')
 }
 
-// 地图选择位置
-const handleLocationSelect = () => {
-  // 这里可以集成地图选择功能
-  ElMessage.info('地图选择功能开发中，请手动输入坐标')
-}
+
 
 // 取消创建
 const handleCancel = async () => {
@@ -441,6 +378,7 @@ onMounted(async () => {
   form.start_time = new Date(now.getTime() + 60 * 60 * 1000) // +1小时
   form.end_time = new Date(now.getTime() + 4 * 60 * 60 * 1000) // +4小时
 })
+
 </script>
 
 <style scoped>

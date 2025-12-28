@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 export const useMapStore = defineStore('map', {
   state: () => ({
     map: shallowRef<AMap.Map | null>(null),
-    home: [120.2, 30.2] as [number, number],
+    home: {lon:120.2, lat:30.2},
     isLoading: false,
     error: null as string | null
   }),
@@ -34,7 +34,7 @@ export const useMapStore = defineStore('map', {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude: lat, longitude: lon, accuracy: acc } = position.coords
-          this.home = [lon, lat]
+          this.home = {lon, lat}
           console.log(`跳转到用户位置: 经度=${lon}, 纬度=${lat}, 准确度=${acc}`)
           this.jumpToHome()
         },
@@ -64,7 +64,7 @@ export const useMapStore = defineStore('map', {
 
   jumpToHome() {
     if (this.map) {
-      this.map.setCenter(this.home, true)
+      this.map.setCenter([this.home.lon, this.home.lat], true)
     }
   },
 

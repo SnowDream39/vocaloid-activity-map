@@ -13,7 +13,7 @@ export default defineNuxtPlugin(async () => {
         AMap: await AMapLoader.load({
           key: config.public.amapKey,
           version: '2.0',
-          plugins: [],
+          plugins: ["AMap.Geocoder"],
         })
       }
     }

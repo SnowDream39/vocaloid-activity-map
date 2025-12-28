@@ -46,4 +46,8 @@ declare global {
         page_size: number;
     }
 
+    interface LonLat {
+        lat: number
+        lon: number
+    }
 }
