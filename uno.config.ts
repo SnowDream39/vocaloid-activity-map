@@ -4,7 +4,7 @@ import { presetScrollbarHide } from 'unocss-preset-scrollbar-hide'
 export default defineConfig({
   presets: [
     presetWind4({
-      dark: 'media',
+      dark: 'class',
     }),
     presetIcons(),
     presetScrollbarHide(),

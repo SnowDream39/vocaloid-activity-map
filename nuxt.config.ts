@@ -37,7 +37,11 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@element-plus/nuxt',
-    '@nuxt/icon'
+    '@nuxt/icon',
+    '@nuxtjs/color-mode',
   ],
-  elementPlus: { /** Options */ }
+  elementPlus: { defaultLocale: 'zh-cn' },
+  colorMode: {
+    classSuffix: '', // 让 class 变成 `dark` 而不是 `dark-mode`
+  },
 })
