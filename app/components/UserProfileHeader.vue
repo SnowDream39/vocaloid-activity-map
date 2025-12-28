@@ -13,14 +13,14 @@
             type="primary" 
             size="large" 
             class="bg-surface text-primary hover:bg-surface/90"
-            @click="$emit('navigateTo', '/login')"
+            @click="handleNavigate('/login')"
           >
             立即登录
           </el-button>
           <el-button 
             size="large" 
             class="border-on-primary text-on-primary hover:bg-white/10"
-            @click="$emit('navigateTo', '/signup')"
+            @click="handleNavigate('/signup')"
           >
             注册账号
           </el-button>
@@ -80,12 +80,15 @@
 const userStore = useUserStore()
 
 defineEmits<{
-  navigateTo: [path: string]
   editProfile: []
 }>()
 
 // 格式化日期
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('zh-CN')
+}
+
+const handleNavigate = (path: string) => {
+  navigateTo(path)
 }
 </script>

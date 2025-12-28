@@ -83,13 +83,19 @@ export const register = async (form: UserRegister) => {
 // 获取当前用户信息
 export const fetchUserInfo = async () => {
   try {
-    const config: any = { headers: {} }
-    if (import.meta.dev) {
-      config.headers.Authorization = 'Bearer ' + localStorage.getItem('access_token')
-      config.withCredentials = false
-    } else {
-      config.withCredentials = true
+    const config: any = { 
+      withCredentials: true, // 始终使用 cookie 认证
+      headers: {}
     }
+    
+    // 开发环境下，如果有 localStorage token，也带上
+    if (import.meta.dev && typeof localStorage !== 'undefined') {
+      const access_token = localStorage.getItem('access_token')
+      if (access_token) {
+        config.headers.Authorization = 'Bearer ' + access_token
+      }
+    }
+    
     const response = await api.get('/users/me', config)
     const userStore = useUserStore()
     userStore.setUser(response.data)

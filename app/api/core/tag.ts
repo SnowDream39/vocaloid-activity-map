@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
   timeout: 10000
 });
 
@@ -10,8 +11,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    if (import.meta.dev) {
-      const  token = localStorage.getItem('access_token')
+    // 开发环境下，如果有 localStorage token，也带上
+    if (import.meta.dev && typeof localStorage !== 'undefined') {
+      const token = localStorage.getItem('access_token')
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

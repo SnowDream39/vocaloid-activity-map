@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{
+defineEmits<{
   changePassword: []
   privacySettings: []
   notificationSettings: []

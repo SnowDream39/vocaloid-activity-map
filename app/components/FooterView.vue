@@ -12,7 +12,7 @@
 <script setup lang="ts">
 const navs = ref([
   { title: '地图', path: '/map', icon: 'material-symbols:location-on' },
-  { title: '活动', path: '/activity', icon: 'material-symbols:calendar-month-outline' },
+  { title: '活动', path: '/search', icon: 'material-symbols:calendar-month-outline' },
   { title: '我的', path: '/my', icon: 'mdi:account' },
 ])
 </script>

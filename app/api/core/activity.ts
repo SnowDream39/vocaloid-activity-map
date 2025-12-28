@@ -3,6 +3,7 @@ import * as luxon from 'luxon';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
   timeout: 10000
 });
 
@@ -11,8 +12,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    if (import.meta.dev) {
-      const  token = localStorage.getItem('access_token')
+    // 开发环境下，如果有 localStorage token，也带上
+    if (import.meta.dev && typeof localStorage !== 'undefined') {
+      const token = localStorage.getItem('access_token')
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -44,10 +46,14 @@ function formatCreateActivity(activity: ActivityCreate): any {
 
 const endpoints = {
   getAll: `/activity/all`,
-  getById: (id: number) => `/activity/id/${id}`,
+  get: (id: number) => `/activity/id/${id}`,
+  getByOwner: `/activity/by_owner`,
+  getByParticipant: `/activity/by_participant`,
   getNearby: `/activity/nearby`,
   search: `/activity/search`,
   create: `/activity/create`,
+  join: (activity_id: number) => `/activity/join/${activity_id}`,
+  leave: (activity_id: number) => `/activity/leave/${activity_id}`,
 }
 
 
@@ -59,8 +65,22 @@ export async function getAll(): Promise<Activity[]> {
 
 }
 export async function getById(id: number): Promise<Activity> {
-  const response = await api.get(endpoints.getById(id))
+  const response = await api.get(endpoints.get(id))
   return response.data
+}
+
+export async function getByOwner(user_id: number): Promise<Activity[]> {
+  const response = await api.get(endpoints.getByOwner, {
+    params: { user_id }
+  })
+  return response.data.map(formatReadActivity)
+}
+
+export async function getByParticipant(user_id: number): Promise<Activity[]> {
+  const response = await api.get(endpoints.getByParticipant, {
+    params: { user_id }
+  })
+  return response.data.map(formatReadActivity)
 }
 
 export async function getNearby(lon: number, lat: number, distance: number, page: number = 1, page_size: number = 20): Promise<Activity[]> {
@@ -112,4 +132,12 @@ interface ActivityCreate {
 export async function create(activity: ActivityCreate): Promise<Activity> {
   const response = await api.post(endpoints.create, formatCreateActivity(activity))
   return formatReadActivity(response.data)
+}
+
+export async function join(activity_id: number): Promise<void> {
+  await api.post(endpoints.join(activity_id))
+}
+
+export async function leave(activity_id: number): Promise<void> {
+  await api.post(endpoints.leave(activity_id))
 }

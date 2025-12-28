@@ -3,7 +3,6 @@
     <!-- 用户信息头部 -->
     <UserProfileHeader 
       :user-store="userStore"
-      @navigate-to="handleNavigate"
       @edit-profile="showEditDialog = true"
     />
 
@@ -12,14 +11,11 @@
       <div v-if="userStore.isAuthenticated && userStore.user" class="grid grid-cols-1 gap-6">
         <!-- 左侧：用户信息卡片 -->
         <div class="space-y-6">
-          <!-- 统计信息 -->
-          <ActivityStats :stats="activityStats" />
+          <!-- 统计信息，暂无打算开发
+          <ActivityStats /> -->
 
           <!-- 最近活动 -->
-          <RecentActivities 
-            :activities="recentActivities"
-            @activity-click="handleActivityClick"
-          />
+          <RecentActivities />
         </div>
 
         <!-- 右侧：设置菜单 -->
@@ -30,23 +26,23 @@
               <Icon name="material-symbols:add-circle" class="w-5 h-5" />
               活动管理
             </h3>
-            <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
               <el-button 
                 type="primary" 
                 size="large"
-                class="w-full"
+                class="h-20 flex flex-col items-center justify-center"
                 @click="handleCreateActivity"
               >
-                <Icon name="material-symbols:add" class="mr-2" />
-                创建新活动
+                <Icon name="material-symbols:add" class="text-2xl mb-1" />
+                <span>创建新活动</span>
               </el-button>
               <el-button 
                 size="large"
-                class="w-full"
+                class="h-20 flex flex-col items-center justify-center"
                 @click="handleMyActivities"
               >
-                <Icon name="material-symbols:format-list-bulleted" class="mr-2" />
-                我的活动
+                <Icon name="material-symbols:format-list-bulleted" class="text-2xl mb-1" />
+                <span>我的活动</span>
               </el-button>
             </div>
           </div>
@@ -55,7 +51,6 @@
             @change-password="showPasswordDialog = true"
             @privacy-settings="showPrivacySettings = true"
             @notification-settings="showNotificationSettings = true"
-            @help-center="handleHelpCenter"
             @logout="handleLogout"
           />
         </div>
@@ -117,54 +112,6 @@ const showNotificationSettings = ref(false)
 
 // 加载状态
 const saving = ref(false)
-
-// 活动统计数据
-const activityStats = reactive({
-  participated: 12,
-  favorited: 5,
-  created: 3,
-  likes: 8
-})
-
-// 最近活动数据
-const recentActivities = ref([
-  {
-    id: 1,
-    title: '术力口演唱会 #1',
-    date: '2024-01-15',
-    location: '北京'
-  },
-  {
-    id: 2,
-    title: '术力口演唱会 #2',
-    date: '2024-02-15',
-    location: '上海'
-  },
-  {
-    id: 3,
-    title: '术力口演唱会 #3',
-    date: '2024-03-15',
-    location: '广州'
-  }
-])
-
-
-// 处理导航
-const handleNavigate = (path: string) => {
-  navigateTo(path)
-}
-
-// 处理活动点击
-const handleActivityClick = (activity: any) => {
-  console.log('活动点击:', activity)
-  // 这里可以跳转到活动详情页
-}
-
-// 处理帮助中心
-const handleHelpCenter = () => {
-  console.log('打开帮助中心')
-  // 这里可以跳转到帮助中心页面
-}
 
 // 处理创建活动
 const handleCreateActivity = () => {

@@ -26,14 +26,16 @@
 </template>
 
 <script setup lang="ts">
-interface ActivityStats {
-  participated: number
-  favorited: number
-  created: number
-  likes: number
-}
 
-const props = defineProps<{
-  stats: ActivityStats
-}>()
+
+
+// 活动统计数据
+const stats = reactive({
+  participated: 12,
+  favorited: 5,
+  created: 3,
+  likes: 8
+})
+
+
 </script>

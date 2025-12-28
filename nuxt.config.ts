@@ -25,6 +25,9 @@ export default defineNuxtConfig({
     '/': { redirect: '/map' },
   },
   runtimeConfig: {
+    // 服务端私有变量
+    apiBaseUrl: process.env.API_BASE_URL,
+    
     public: {
       amapKey: process.env.AMAP_KEY,
       amapSecurityCode: process.env.AMAP_SECURITY_CODE,
