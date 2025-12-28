@@ -197,6 +197,7 @@ const handleSaveProfile = async (userData: any) => {
     showEditDialog.value = false
   } catch (error) {
     ElMessage.error('更新失败，请重试')
+    console.log(error)
   } finally {
     saving.value = false
   }
@@ -221,6 +222,7 @@ const handleUpdatePassword = async (passwordData: any) => {
     showPasswordDialog.value = false
   } catch (error) {
     ElMessage.error('密码修改失败，请检查当前密码')
+    console.log(error)
   } finally {
     saving.value = false
   }
@@ -246,10 +248,6 @@ const handleLogout = async () => {
     // 用户取消操作
   }
 }
-
-onMounted(() => {
-  console.log("页面已加载")
-})
 
 </script>
 

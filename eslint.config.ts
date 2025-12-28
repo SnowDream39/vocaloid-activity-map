@@ -7,7 +7,7 @@ import tsParser from '@typescript-eslint/parser'
 export default withNuxt(
     // ① 给 .vue 文件用 parser
   {
-    files: ['**/*.vue'],
+    files: ['**/*.vue', '**/*.client.vue'],
     languageOptions: {
       parser: vueParser,
       parserOptions: {
@@ -19,7 +19,7 @@ export default withNuxt(
   },
     // ② 只对 .vue 文件关闭 any 限制
   {
-    files: ['**/*.vue'],
+    files: ['**/*.vue', '**/*.client.vue'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
     },

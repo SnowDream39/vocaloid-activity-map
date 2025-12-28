@@ -9,3 +9,7 @@ body {
 #main-map {
   color: black;
 }
+
+.el-check-tag {
+  font-weight: normal !important;
+}

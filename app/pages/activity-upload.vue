@@ -54,47 +54,9 @@
               />
             </el-form-item>
 
-            <el-form-item label="活动标签" prop="tags">
-              <div class="space-y-4">
-                <!-- 按type分类显示标签 -->
-                <div 
-                  v-for="(tagsList, type) in tagsByType" 
-                  :key="type"
-                  class="space-y-2"
-                >
-                  <h4 class="text-sm font-medium text-on-surface flex items-center gap-2">
-                    <Icon name="material-symbols:label" class="w-4 h-4" />
-                    {{ type }}
-                  </h4>
-                  <div class="flex flex-wrap gap-2">
-                    <el-checkbox
-                      v-for="tag in tagsList"
-                      :key="tag.id"
-                      :model-value="form.tags.includes(tag.id)"
-                      @change="handleTagChange(tag.id, $event)"
-                    >
-                      {{ tag.name }}
-                    </el-checkbox>
-                  </div>
-                </div>
-                
-                <!-- 已选标签显示 -->
-                <div v-if="form.tags.length > 0" class="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <div class="text-sm font-medium text-gray-700 mb-2">已选择的标签:</div>
-                  <div class="flex flex-wrap gap-2">
-                    <el-tag
-                      v-for="tagId in form.tags"
-                      :key="tagId"
-                      closable
-                      @close="handleRemoveTag(tagId)"
-                    >
-                      {{ getTagNameById(tagId) }}
-                    </el-tag>
-                  </div>
-                </div>
-                
-              </div>
-            </el-form-item>
+            <SelectTags
+              v-model:selected-tag-ids="form.tags"
+            />
 
             <el-form-item label="最大人数" prop="max_member">
               <el-input-number 
@@ -168,7 +130,6 @@
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { DateTime } from 'luxon'
 import { create } from '~/api/core/activity'
-import { getAll as getAllTags } from '~/api/core/tag'
 
 // 页面元信息
 definePageMeta({
@@ -182,44 +143,6 @@ const formRef = ref<FormInstance>()
 
 // 提交状态
 const submitting = ref(false)
-
-// 标签数据
-const allTags = ref<Tag[]>([])
-const tagsByType = ref<Record<string, Tag[]>>({})
-
-// 加载标签数据
-const loadTags = async () => {
-  try {
-    const tags = await getAllTags()
-    allTags.value = tags
-    // 按type分组
-    tagsByType.value = tags.reduce((acc, tag) => {
-      if (!acc[tag.type]) {
-        acc[tag.type] = []
-      }
-      acc[tag.type].push(tag)
-      return acc
-    }, {} as Record<string, Tag[]>)
-  } catch (error) {
-    console.error('加载标签失败:', error)
-    // 提供测试标签数据
-    const mockTags: Tag[] = [
-      { id: 1, name: '演唱会', type: '活动类型' },
-      { id: 2, name: '音乐', type: '音乐风格' },
-      { id: 3, name: 'Vocaloid', type: '音乐风格' },
-      { id: 4, name: '线下活动', type: '活动类型' },
-      { id: 5, name: '同人', type: '活动类型' }
-    ]
-    allTags.value = mockTags
-    tagsByType.value = mockTags.reduce((acc, tag) => {
-      if (!acc[tag.type]) {
-        acc[tag.type] = []
-      }
-      acc[tag.type].push(tag)
-      return acc
-    }, {} as Record<string, Tag[]>)
-  }
-}
 
 // 表单数据（内部使用Date对象供el-date-picker使用）
 const form = reactive({
@@ -261,31 +184,6 @@ const rules = reactive<FormRules>({
   ]
 })
 
-// 标签处理函数
-const handleTagChange = (tagId: number, checked: boolean) => {
-  if (checked) {
-    if (!form.tags.includes(tagId)) {
-      form.tags.push(tagId)
-    }
-  } else {
-    const index = form.tags.indexOf(tagId)
-    if (index > -1) {
-      form.tags.splice(index, 1)
-    }
-  }
-}
-
-const handleRemoveTag = (tagId: number) => {
-  const index = form.tags.indexOf(tagId)
-  if (index > -1) {
-    form.tags.splice(index, 1)
-  }
-}
-
-const getTagNameById = (tagId: number): string => {
-  const tag = allTags.value.find(t => t.id === tagId)
-  return tag?.name || `未知标签(${tagId})`
-}
 
 // 自定义验证：结束时间必须晚于开始时间
 const validateTimeRange = () => {
@@ -327,7 +225,6 @@ const handleCancel = async () => {
 // 提交表单
 const handleSubmit = async () => {
   if (!formRef.value) return
-      console.log('表单数据:', form)
 
   try {
     // 验证表单
@@ -370,9 +267,6 @@ const handleSubmit = async () => {
 }
 
 onMounted(async () => {
-  // 加载标签数据
-  await loadTags()
-  
   // 设置默认时间为当前时间后1小时开始，4小时后结束
   const now = new Date()
   form.start_time = new Date(now.getTime() + 60 * 60 * 1000) // +1小时
